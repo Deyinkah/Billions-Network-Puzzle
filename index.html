@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+        <title>Billions Community Puzzle Game</title>
+        <meta name="description" content="Try today’s puzzle and share your score.">
+        <script src="https://kit.fontawesome.com/9a1c63b39e.js" crossorigin="anonymous"></script>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        >
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        >
+        <link rel="manifest" href="/site.webmanifest">
+        <!-- Open Graph -->
+        <meta property="og:title" content="I just solved today's Billions Community Daily Puzzle!">
+        <meta property="og:site_name" content="Billions Community Puzzle Game">
+        <meta property="og:description" content="Try today’s puzzle and share your score.">
+        <meta property="og:image" content="https://puzzle.billionscommunitygames.com/og/placeholder.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@billions_ntwk">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="wrap">
+            <header>
+                <div class="brand">
+                    <div class="logo" aria-hidden="true">
+                        <img class="logo-img" src="./img/puzzle-logo.png" alt="Billionaires Network Logo">
+                    </div>
+                    <div>
+                        <h1>Billionaires Puzzle Game</h1>
+                        <div class="sub">One image per day</div>
+                    </div>
+                </div>
+            </header>
+            <div class="actions-container">
+                <div class="actions">
+                    <span class="chip" id="chipDate">—</span>
+                    <span class="chip" id="chipDiff">—</span>
+                    <span class="chip" id="chipPieces">
+                        Pieces Left:
+                        <strong id="piecesLeft">0</strong>
+                    </span>
+                    <span class="chip">
+                        Time:
+                        <strong id="time">00:00</strong>
+                    </span>
+                    <span class="chip">
+                        Score:
+                        <strong id="score">1000</strong>
+                    </span>
+                    <div class="btn-container">
+                        <div>
+                            <button class="btn hint-btn" id="hintBtn" title="Peek the board for 3s (costs points)">
+                                Hint
+                            </button>
+                            <button class="btn reset-btn primary" id="resetBtn" title="Reset this same daily puzzle">
+                                Reset
+                            </button>
+                        </div>
+                        <a class="btn check-other-games long-btn" title="Check out other games" href="https://billionscommunitygames.com" target="_blank" rel="noopener noreferrer">Play Other Games</a>
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <!-- PLAY AREA -->
+                <section class="card">
+                    <div class="playarea">
+                        <div class="boardWrap">
+                            <div id="board" class="board" aria-label="Puzzle board"></div>
+                            <div id="hintOverlay" class="hintOverlay" aria-hidden="true"></div>
+                        </div>
+                        <div>
+                            <div class="divider"></div>
+                            <h3 style="margin:0 0 8px 0">Pieces Tray</h3>
+                            <!-- Guides row: shown when tray is empty to indicate droppable area -->
+                            <div id="trayGuides" class="tray-guides" aria-hidden="true">
+                                <!-- create a full "row" worth of visual boxes; auto-wraps via CSS -->
+                                <div class="tray-guide"></div>
+                                <div class="tray-guide"></div>
+                                <div class="tray-guide"></div>
+                                <div class="tray-guide"></div>
+                                <div class="tray-guide"></div>
+                                <div class="tray-guide"></div>
+                            </div>
+                            <div id="tray" class="tray" aria-label="Pieces tray"></div>
+                        </div>
+                    </div>
+                    <!-- Status / Toast line (toast replaces this line temporarily) -->
+                    <div class="stats">
+                        <span class="stats-msg" id="stats-msg">
+                            Drag pieces from the tray onto the board.
+                        </span
+            >
+                        <div
+                            id="toast"
+                            class="toast"
+                            role="status"
+                            aria-live="polite"
+                            aria-atomic="true"
+                        ></div>
+                    </div>
+                </section>
+                <!-- RIGHT PANE -->
+                <aside class="card right-card">
+                    <h3>Reference</h3>
+                    <div id="refimg" class="refimg"></div>
+                    <div class="stats">
+                        <span>
+                            Date:
+                            <strong id="dayKey">—</strong>
+                        </span>
+                        <span>
+                            Resets:
+                            <strong id="resets">0</strong>
+                        </span>
+                        <span>
+                            Hints:
+                            <strong id="hints">0</strong>
+                        </span>
+                    </div>
+                </aside>
+            </div>
+            <footer>
+                <span></span>
+                <a href="https://x.com/deyinca" target="_blank" rel="noopener noreferrer">
+                    Built with ❤️ for the Billions Network Community
+                </a
+        >
+            </footer>
+        </div>
+        <!-- Win Modal -->
+        <div id="backdrop" class="backdrop" aria-hidden="true">
+            <div
+                class="modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="winTitle"
+            >
+                <h2 class="win-title" id="winTitle">Puzzle Completed! 🎉</h2>
+                <!-- <p id="winStats"></p> -->
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px">
+                    <button class="btn primary btn-enlarge" id="shareBtn">
+                        Share to
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </button>
+                    <button class="btn btn-enlarge" id="closeWin">Close</button>
+                </div>
+            </div>
+        </div>
+        <!-- Help FAB + Sheet -->
+        <button
+            id="helpFab"
+            class="fab"
+            aria-label="How it works"
+            title="How it works"
+        >
+            ?
+        </button>
+        <div
+            id="helpSheet"
+            class="help-sheet"
+            aria-hidden="true"
+            role="dialog"
+            aria-labelledby="helpTitle"
+        >
+            <div class="help-sheet__panel" role="document">
+                <button id="helpClose" class="help-close" aria-label="Close help">
+                    ×
+                </button>
+                <h2 id="helpTitle" class="help-title">How it works</h2>
+                <div class="help-content">
+                    <p>
+                        <strong>Goal:</strong>
+                        complete today’s image by dragging tiles from
+            the
+                        <em>Pieces Tray</em>
+                        onto the
+                        <em>Board</em>
+                        in the right spots.
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Drag & drop:</strong>
+                            Move a tile from the tray onto a
+              board cell. To move it elsewhere, drag it back to the tray first.
+                        </li>
+                        <li>
+                            <strong>Hint:</strong>
+                            Shows a brief overlay of the solved image
+              (5s).
+                        </li>
+                        <li>
+                            <strong>Reset:</strong>
+                            Restart the same daily puzzle.
+                        </li>
+                        <li>
+                            <strong>Flash memory:</strong>
+                            If you remove a piece that was
+              correct, that cell dims briefly to remind you it was correct
+              before.
+                        </li>
+                        <li>
+                            <strong>Daily reset:</strong>
+                            New puzzle unlocks at
+                            <strong>06:00 UTC</strong>
+                            everyday.
+                        </li>
+                    </ul>
+                    <p>
+                        <strong>
+                            Each day, the puzzle will feature the PFP of a core believer of
+              Billions Network (either the team, moderator, community member,
+              etc.)
+                        </strong
+            >
+                    </p>
+                </div>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

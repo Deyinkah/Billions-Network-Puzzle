@@ -1,0 +1,13 @@
+{
+  "name": "billions-puzzle",
+  "private": true,
+  "scripts": {
+    "verify": "node verify-build.js",
+    "build:og": "node generate-og-images.js",
+    "build:share": "node generate-share-pages.js",
+    "build:all": "npm run build:og && npm run build:share && npm run verify"
+  },
+  "dependencies": {
+    "sharp": "^0.34.3"
+  }
+}

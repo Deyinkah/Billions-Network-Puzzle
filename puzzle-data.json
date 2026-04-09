@@ -1,0 +1,11 @@
+{
+  "days": [
+    { "date": "2025-09-12", "img": "img/billions-logo.jpg", "difficulty": "Medium", "username": "billions_ntwk" },
+    { "date": "2025-09-13", "img": "img/javi.jpeg", "difficulty": "Medium",   "username": "jgonzalezferrer" },
+    { "date": "2025-09-14", "img": "img/evin.jpg", "difficulty": "Medium", "username": "provenauthority" },
+    { "date": "2025-09-15", "img": "img/alexdigital.jpg", "difficulty": "Medium", "username": "0xAlexDigital" },
+    { "date": "2025-09-16", "img": "img/jessei.jpg", "difficulty": "Medium", "username": "Starjessei_web3" },
+    { "date": "2025-09-17", "img": "img/onchainron.jpg", "difficulty": "Medium", "username": "onchainron" },
+    { "date": "2025-09-18", "img": "img/alexdigital.jpg", "difficulty": "Medium", "username": "LouyemaLo" }
+  ]
+}

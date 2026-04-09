@@ -1,0 +1,506 @@
+/* ===========================================================
+   Full-Screen Layout + Compact Sizing + Small Scroll Margin
+   =========================================================== */
+
+:root {
+  --bg1: #0e1025;
+  --bg2: #111a36;
+  --card: #0b1024;
+  --muted: #a9b1d6;
+  --text: #eef1ff;
+  --accent: #8aa3ff;
+  --accent2: #b289ff;
+  --ok: #2ecc71;
+  --warn: #ffbe55;
+  --bad: #ff6b6b;
+  --glass: rgba(255, 255, 255, 0.06);
+  --glass2: rgba(255, 255, 255, 0.12);
+  --radius: 16px;
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* === Allow page scroll, but only small === */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: radial-gradient(
+      1200px circle at 20% -10%,
+      #22317a55,
+      transparent 60%
+    ),
+    radial-gradient(1200px circle at 80% 110%, #7b3cf055, transparent 60%),
+    linear-gradient(160deg, var(--bg1), var(--bg2));
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter,
+    "Helvetica Neue", Arial;
+
+  display: grid;
+  grid-template-rows: auto auto 1fr auto; /* header, main, footer */
+  min-height: 100vh;
+}
+
+/* ===== Header / Shell ===== */
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 10px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.brand {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.logo {
+  width: 50px;
+  height: 50px;
+}
+.logo-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+h1 {
+  font-size: clamp(18px, 2.2vw, 24px);
+  margin: 0 0 2px 0;
+  font-weight: 800;
+}
+.sub {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-between; /* pushes first group left, last group right */
+  align-items: center;           /* vertically center buttons */
+  gap: 8px;                      /* optional spacing */
+}
+
+.btn-container > div {
+  display: flex;
+  gap: 6px; /* space between hint & reset */
+}
+
+/* .btn base consolidated below */
+
+.btn-enlarge {
+  font-size: 16px;
+}
+
+.long-btn {
+  padding: 8px 20px;
+}
+
+.chip {
+  background: #0f1740;
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  display: none;
+}
+.btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--glass);
+  color: var(--text);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), var(--shadow);
+  font-weight: 700;
+  transition: transform 0.08s ease, background 0.2s ease;
+}
+.btn:hover {
+  transform: translateY(-1px);
+  background: var(--glass2);
+}
+.btn:active {
+  transform: translateY(0);
+}
+.btn.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #0b0f1f;
+  box-shadow: 0 10px 30px rgba(138, 163, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.btn.ghost {
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+}
+
+/* ===== Main Grid ===== */
+.grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1.1fr 0.9fr;
+  margin: 0;
+}
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .actions-container {
+    right: 12px;
+  }
+}
+
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.07),
+    rgba(255, 255, 255, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  padding: 12px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.right-card {
+    /* justify-content: center; */
+  align-items: center;
+}
+
+.right-card h3 {
+  margin:24px 0 16px 0;
+
+}
+
+/* ===== Play area ===== */
+.playarea {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 10px;
+}
+.boardWrap {
+  display: grid;
+  place-items: center;
+}
+
+/* Resize board smaller so tray fits too */
+.board {
+  width: min(62vmin, 90vw);
+  aspect-ratio: 1/1;
+  display: grid;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.cell {
+  position: relative;
+  background: #0c1229;
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+}
+.cell.correct {
+  /* border: 1px solid rgba(124, 156, 255, 0.55); */
+  /* background: rgba(46, 204, 113, 0.25);
+  box-shadow: inset 0 0 0 2px rgba(46, 204, 113, 0.75), 0 0 18px rgba(46, 204, 113, 0.35); */
+}
+
+.hintOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background-position: center;
+  background-size: cover;
+  border-radius: 14px;
+  transition: opacity 0.2s ease;
+}
+.hintOverlay.show {
+  opacity: 0.35;
+}
+
+/* Tray below board, scrolls internally if overflow */
+.tray {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  grid-auto-rows: 56px;
+  align-content: start;
+  overflow: auto;
+  max-height: 200px; /* ensures it won’t eat the whole screen */
+  padding-right: 4px;
+}
+.tray .piece {
+  width: 100%;
+  height: 100%;
+}
+
+/* Tray placeholders so tray never looks collapsed */
+.tray.empty::before {
+  content: "";
+  display: block;
+  grid-column: 1 / -1;  /* span full row */
+  height: 52px;
+  border: 2px dashed rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+
+.board .cell .piece {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background-size: cover;
+  background-position: center;
+}
+
+.piece {
+  height: 56px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background-position: center;
+  background-size: cover;
+  cursor: grab;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.piece:active {
+  cursor: grabbing;
+}
+.piece.placed {
+  cursor: default;
+  opacity: 0.8;
+  filter: saturate(120%);
+}
+
+/* ===== Sidebar ===== */
+.ref {
+  display: grid;
+  gap: 10px;
+}
+.refimg {
+  aspect-ratio: 1/1;
+  width: 80%;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background-position: center;
+  background-size: cover;
+  margin: 0 0 16px;
+}
+
+/* ===== Footer ===== */
+footer {
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+  padding: 12px;
+  margin-top: 20px;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 10, 20, 0.6);
+  backdrop-filter: blur(6px);
+  display: none; 
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+  justify-items: center;
+
+}
+
+.modal {
+  background: linear-gradient(120deg, #1a2150 60%, #3a2e5f 100%) rgba(8, 10, 20, 0.7);
+  backdrop-filter: blur(12px) brightness(0.9);
+  padding: 40px 48px 48px;
+  /* border-radius: 36px; */
+
+  border-radius: 18px;
+  /* background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.12); */
+  
+  box-shadow: var(--shadow);
+  animation: sheetIn 180ms ease-out;
+}
+
+.win-title {
+  margin-top: 0;
+}
+
+/* ===== Stats / Toast line ===== */
+.stats {
+  margin: 8px 0 0;
+  min-height: 22px; /* reserve space so layout doesn’t jump */
+  position: relative;
+}
+
+/* Default message */
+.stats-msg {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Toast in same place, hidden by default */
+.toast {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--warn);
+  background: rgba(255, 190, 85, 0.1);
+  border: 1px solid var(--warn);
+  padding: 4px 8px;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+#toast.show {
+  display: inline-block;
+  animation: toastFade 0.18s ease-out;
+}
+
+@keyframes toastFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Generic helper */
+.hidden { display: none; }
+
+/* anchor buttons already inherit color from .btn */
+
+a {
+  text-decoration: none;
+  color: var(--muted);
+}
+
+
+/* ===== Flash Correct Cell ===== */
+
+.cell.flash-correct::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: rgba(46, 204, 113, 0.25);
+  box-shadow: inset 0 0 0 2px rgba(46, 204, 113, 0.75), 0 0 18px rgba(46, 204, 113, 0.35);
+  pointer-events: none;
+  animation: cellFlashFade 10s ease-out forwards;
+}
+
+@keyframes cellFlashFade {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ===== Help FAB & Sheet ===== */
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--glass);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 20px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  z-index: 70;
+  transition: transform 0.08s ease, background 0.2s ease;
+}
+.fab:hover { transform: translateY(-1px); background: var(--glass2); }
+.fab:active { transform: translateY(0); }
+
+/* Backdrop */
+.help-sheet {
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: rgba(8, 10, 20, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 65;
+}
+.help-sheet.show { display: block; }
+
+/* Panel */
+.help-sheet__panel {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: min(520px, 92vw);
+  max-height: 85vh;
+  overflow: auto;
+  padding: 20px 20px 22px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: var(--shadow);
+  animation: sheetIn 180ms ease-out;
+}
+@keyframes sheetIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+.help-title {
+  margin: 0 0 8px 0;
+}
+.help-content {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.help-content ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+.help-content li { margin: 6px 0; }
+
+/* Close (×) */
+.help-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 0;
+  background: var(--glass);
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.help-close:hover { background: var(--glass2); }

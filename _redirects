@@ -1,0 +1,3 @@
+/og/*     /og/:splat     200
+/share/*  /share/:splat  200
+/*        /index.html    200
