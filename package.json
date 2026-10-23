@@ -8,6 +8,6 @@
     "build:all": "npm run build:og && npm run build:share && npm run verify"
   },
   "dependencies": {
-    "sharp": "^0.34.3"
+    "sharp": "^0.35.5"
   }
 }
